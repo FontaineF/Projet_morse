@@ -27,31 +27,31 @@ std::string translation(int* valeur){
     std::string traduit_final;  //La distinction entre traduit et traduit_final permet d'enlever tous les '_' qui apparaissent
     std::string traduit;        //       à la fin du message décodé en raison de la taille du tableau initialisée à 1000
     std::string temp;           //Stocke les lettres une à une
-    int i = 30;
-    bool mot_en_cours = false;  //Variable pour savoir si un mot est en cours
+    int i = 30;                 //Permet de ne pas prendre en compte le blanc laissé au début de chaque message codé
+    bool lettre_en_cours = false;  //Variable pour savoir si un mot est en cours
     int pre_un = 0; //nombres de 1 juste avant le i dans le tableau de valeurs
     int pre_zero = 0; //nombres de 1 juste avant le i dans le tableau de valeurs
     while(i < 10000){
         if(valeur[i]==0){
             if(pre_un == 1){
-                temp += ".";
+                temp += "."; //Un seul signal -> "."
             }
             if(pre_zero >= 5){
-                if(mot_en_cours){
+                if(lettre_en_cours){
                     traduit += dct[temp];
-                    traduit_final += traduit;
+                    traduit_final += traduit;   //On a fini d'entrer la lettre
                     traduit = "";
                     pre_zero = 0;
                     temp = "";
-                    mot_en_cours = false;
+                    lettre_en_cours = false;
 
                 }
                 else if(pre_zero == 25){
-                    traduit += "_";
+                    traduit += "_"; //Suffisament de blancs entre les signaux pour considérer qu'il y a un espace entre deux mots
                     pre_zero = 0;
                 }
                 else{
-                    pre_zero += 1;
+                    pre_zero += 1; //Pas suffisament de blancs entre les signaux pour considérer qu'il y a un espace entre deux mots
                 }
             }
             else{
@@ -60,14 +60,14 @@ std::string translation(int* valeur){
             pre_un = 0;
         }
         if(valeur[i]==1){
-            mot_en_cours = true;
+            lettre_en_cours = true; //On commence une lettre
             if(pre_un == 2){
-                temp += "-";
+                temp += "-"; //Trois signaux d'affilée -> "-"
             }
             pre_un += 1;
             pre_zero = 0;
         }
-        i+=1;
+        i+=1;   //On regarde la valeur suivante
     }
 
 

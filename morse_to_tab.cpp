@@ -66,13 +66,13 @@ int* decoder()
         int8_t* buffer = new int8_t[2];
         int k = 0;
         fseek(wavFile, wavHeader.bytesPerSec*duree_point*0.001/2,SEEK_CUR); //Permet d'éviter les zéros du sinus de l'amplitude
-        //On va lire les données
+        //On va lire les données, échantillon par échantillon, correspondant à la durée d'un signal "."
         while ((bytesRead = fread(buffer, sizeof buffer[0], 2, wavFile)) > 0 ){
             if (((buffer[0] << 8) + buffer[1]) != 0){       //L'amplitude du signal est non nulle pour cet échantillon
-                valeur[k] = 1;
+                valeur[k] = 1;                              //Le tableau de valeurs enregistre qu'il y avait un signal
             }
-            else{
-                valeur[k] = 0;
+            else{                                           //L'amplitude du signal est nulle pour cet échantillon
+                valeur[k] = 0;                              //Le tableau de valeurs enregistre qu'il n'y avait pas de signal
             }
             k+=1;
             fseek(wavFile, wavHeader.bytesPerSec*duree_point*0.001 - 2*(sizeof buffer[0]), SEEK_CUR);   //On passe à l'échantillon suivant

@@ -15,4 +15,4 @@ main.o : main.cpp menu.h
 %.o:%.cpp; $(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean :
-	$(RM) test.o rpn_calc.o stack.o res
+	$(RM) res : txt_to_morse.o morse_to_tab.o tab_to_txt.o morse_to_txt.o menu.o main.o res

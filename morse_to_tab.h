@@ -23,5 +23,3 @@ typedef struct  WAV_HEADER
 int getFileSize(FILE* inFile);
 
 int* decoder();
-
-// find the file size
